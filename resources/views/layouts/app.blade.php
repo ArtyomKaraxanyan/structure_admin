@@ -30,12 +30,13 @@
     <link href="{{asset('vendor/simple-datatables/style.css')}}" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="{{asset('css/main.css')}}" rel="stylesheet">
+    <link href="{{asset('css/admin/style.css')}}" rel="stylesheet">
     <!-- Scripts -->
     {{--@vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
 </head>
 <body>
     <div id="app">
+        @include('.admin.layouts.header')
         <main class="py-4">
             @yield('content')
         </main>
