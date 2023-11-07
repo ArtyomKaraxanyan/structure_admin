@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Eloquent\FileRepository;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
 abstract class EloquentRepository implements EloquentInterface
 {
     /**
@@ -63,7 +66,25 @@ abstract class EloquentRepository implements EloquentInterface
      */
     public function create(array $data): Model
     {
-        return $this->getModel()->create($data);
+        $this->getModel()->create($data);
+
+        $connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
+        $channel = $connection->channel();
+
+        $channel->queue_declare('create', false, false, false, false);
+
+        $data=json_encode($data);
+
+        $msg = new AMQPMessage($data);
+
+        $channel->basic_publish($msg, '', 'hello');
+
+        echo "Saving...";
+
+        $channel->close();
+        $connection->close();
+
+        return $this->getModel();
     }
 
     /**
