@@ -398,7 +398,16 @@ tbody tr td  {
   color: #f6f9ff;
   border-bottom: 2px solid #f6f9ff;
 }
+.login-content{
+    padding: 100px;
+}
+.login-card-content{
+    margin: 10px 100px 20px;
+}
 
+.login-btn{
+    width: 100%;
+}
 .chosen{
   color: green;
 }
